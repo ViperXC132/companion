@@ -79,9 +79,10 @@
         <DockPanel Grid.Row="3" Margin="2,12,2,0">
             <CheckBox x:Name="SpeakResponsesCheckBox" Content="Speak responses" IsChecked="True"
                       Foreground="{StaticResource OrbMuted}" FontSize="11" VerticalAlignment="Center"/>
-            <Button DockPanel.Dock="Right" Content="Workspace files…" Click="Workspace_Click"
-                    Background="Transparent" Foreground="{StaticResource OrbMuted}" BorderThickness="0"
-                    FontSize="11" Padding="8,4"/>
+            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                <Button Content="OpenCode…" Click="OpenCode_Click" Background="Transparent" Foreground="{StaticResource OrbMuted}" BorderThickness="0" FontSize="11" Padding="8,4"/>
+                <Button Content="Workspace files…" Click="Workspace_Click" Background="Transparent" Foreground="{StaticResource OrbMuted}" BorderThickness="0" FontSize="11" Padding="8,4"/>
+            </StackPanel>
             <TextBlock Text="Ollama must be running locally. The microphone is used only when Listen is pressed."
                        Foreground="{StaticResource OrbMuted}" FontSize="10" VerticalAlignment="Center"
                        Margin="16,0,0,0"/>
