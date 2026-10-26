@@ -8,6 +8,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevAI.Core", "src\DevAI.Cor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevAI.Core.Tests", "tests\DevAI.Core.Tests\DevAI.Core.Tests.csproj", "{5C3FAB8E-4D60-4C83-BD55-92D3D102C303}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevAI.Providers", "src\DevAI.Providers\DevAI.Providers.csproj", "{7D4ABC9F-5E71-4D94-CE66-A3E4E213D404}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevAI.Storage", "src\DevAI.Storage\DevAI.Storage.csproj", "{8E5BCD0A-6F82-4EA5-DF77-B4F5F324E505}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevAI.Voice", "src\DevAI.Voice\DevAI.Voice.csproj", "{9F6CDE1B-7093-4FB6-E088-C5060435F606}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevAI.Computer", "src\DevAI.Computer\DevAI.Computer.csproj", "{A07DEF2C-81A4-40C7-F199-D6171546A707}"
+EndProject
 Global
   GlobalSection(SolutionConfigurationPlatforms) = preSolution
     Debug|Any CPU = Debug|Any CPU
