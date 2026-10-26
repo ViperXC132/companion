@@ -13,19 +13,32 @@ A Windows desktop AI companion built with C# and .NET 8 WPF.
 - Read-only workspace listing, constrained to the folder selected by the user.
 - A permission-gated action runner for future state-changing computer operations.
 
-## Requirements
+## Download the Windows app
+
+Every push to `main` and every manual run of the **Build and package Dev AI Orb** workflow restores, builds, tests, and publishes a self-contained Windows x64 application. The packaged output is uploaded as a GitHub Actions artifact named **DevAI-Orb-win-x64** (retained for 30 days).
+
+1. Open the repository's **Actions** tab.
+2. Select **Build and package Dev AI Orb**.
+3. Open the latest successful run.
+4. Under **Artifacts**, download `DevAI-Orb-win-x64` and extract the ZIP.
+5. Run `DevAI.Orb.exe` on Windows 10/11.
+
+The artifact is a self-contained .NET publish, so the .NET runtime does not need to be installed separately. **Ollama is still a separate dependency** for AI chat and must be installed/running with a model such as `llama3.2`. Voice features depend on Windows speech support and microphone permissions.
+
+## Requirements for developing from source
 
 - Windows 10/11
 - .NET 8 SDK
 - [Ollama](https://ollama.com/) installed and running for AI chat; pull a model such as `llama3.2` first.
 - Windows speech recognition language/engine and microphone permission for voice input.
 
-## Build and test
+## Build and test locally
 
 ```powershell
 dotnet restore DevAI.sln
 dotnet build DevAI.sln --configuration Release
 dotnet test DevAI.sln --configuration Release
+dotnet publish src/DevAI.App/DevAI.App.csproj --configuration Release --runtime win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true
 ```
 
 Open `DevAI.sln` in Visual Studio 2022 or use the commands above on Windows.
