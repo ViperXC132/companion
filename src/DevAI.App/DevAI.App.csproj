@@ -9,5 +9,9 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\DevAI.Core\DevAI.Core.csproj" />
+    <ProjectReference Include="..\DevAI.Providers\DevAI.Providers.csproj" />
+    <ProjectReference Include="..\DevAI.Storage\DevAI.Storage.csproj" />
+    <ProjectReference Include="..\DevAI.Voice\DevAI.Voice.csproj" />
+    <ProjectReference Include="..\DevAI.Computer\DevAI.Computer.csproj" />
   </ItemGroup>
 </Project>
