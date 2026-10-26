@@ -3,12 +3,17 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
+using DevAI.App.Views;
 
 namespace DevAI.App;
 
 public partial class OrbWindow : Window
 {
     private MainWindow? _mainWindow;
+    private Point _dragStartScreen;
+    private double _windowStartLeft;
+    private double _windowStartTop;
+    private bool _isDragging;
 
     public OrbWindow()
     {
@@ -26,17 +31,37 @@ public partial class OrbWindow : Window
 
     private void Orb_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        if (e.ClickCount > 1)
-        {
-            OpenCompanion();
-            return;
-        }
+        _dragStartScreen = PointToScreen(e.GetPosition(this));
+        _windowStartLeft = Left;
+        _windowStartTop = Top;
+        _isDragging = false;
+        CaptureMouse();
+        e.Handled = true;
+    }
 
-        if (e.RightButton == MouseButtonState.Released)
-        {
-            try { DragMove(); }
-            catch (InvalidOperationException) { /* A lost mouse capture should not crash the orb. */ }
-        }
+    private void Orb_MouseMove(object sender, MouseEventArgs e)
+    {
+        if (!IsMouseCaptured || e.LeftButton != MouseButtonState.Pressed)
+            return;
+
+        var current = PointToScreen(e.GetPosition(this));
+        var dx = current.X - _dragStartScreen.X;
+        var dy = current.Y - _dragStartScreen.Y;
+
+        if (!_isDragging && Math.Abs(dx) + Math.Abs(dy) < 5)
+            return;
+
+        _isDragging = true;
+        Left = _windowStartLeft + dx;
+        Top = _windowStartTop + dy;
+    }
+
+    private void Orb_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    {
+        ReleaseMouseCapture();
+        if (!_isDragging)
+            OpenCompanion();
+        e.Handled = true;
     }
 
     private void Orb_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
@@ -45,14 +70,13 @@ public partial class OrbWindow : Window
         var open = new MenuItem { Header = "Open Dev AI Orb" };
         open.Click += (_, _) => OpenCompanion();
         var settings = new MenuItem { Header = "Settings" };
-        settings.Click += (_, _) => OpenCompanion();
-        var separator = new Separator();
+        settings.Click += (_, _) => OpenSettings();
         var exit = new MenuItem { Header = "Exit" };
         exit.Click += (_, _) => Application.Current.Shutdown();
 
         menu.Items.Add(open);
         menu.Items.Add(settings);
-        menu.Items.Add(separator);
+        menu.Items.Add(new Separator());
         menu.Items.Add(exit);
         ContextMenu = menu;
         menu.IsOpen = true;
@@ -71,8 +95,13 @@ public partial class OrbWindow : Window
         {
             if (_mainWindow.WindowState == WindowState.Minimized)
                 _mainWindow.WindowState = WindowState.Normal;
-
             _mainWindow.Activate();
         }
+    }
+
+    private void OpenSettings()
+    {
+        var settings = new SettingsWindow { Owner = _mainWindow };
+        settings.ShowDialog();
     }
 }
