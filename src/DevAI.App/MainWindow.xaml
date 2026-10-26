@@ -1,0 +1,66 @@
+<Window x:Class="DevAI.App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Dev AI Orb"
+        Width="900" Height="620"
+        MinWidth="720" MinHeight="480"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource OrbBackground}"
+        Foreground="{StaticResource OrbText}"
+        FontFamily="Segoe UI">
+    <Grid Margin="28">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0" Margin="0,0,0,24">
+            <StackPanel>
+                <TextBlock Text="DEV AI ORB" FontSize="12" FontWeight="SemiBold"
+                           Foreground="{StaticResource OrbMuted}" />
+                <TextBlock Text="Your desktop companion" FontSize="27"
+                           FontWeight="SemiBold" Margin="0,5,0,0" />
+            </StackPanel>
+            <Border DockPanel.Dock="Right" Background="#242832" CornerRadius="14"
+                    Padding="12,7" VerticalAlignment="Center">
+                <TextBlock Text="FOUNDATION · PHASE 1" FontSize="10"
+                           FontWeight="SemiBold" Foreground="{StaticResource OrbMuted}" />
+            </Border>
+        </DockPanel>
+
+        <Border Grid.Row="1" Background="{StaticResource OrbPanel}" CornerRadius="18"
+                Padding="24">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center"
+                        MaxWidth="460">
+                <Grid Width="76" Height="76" Margin="0,0,0,22">
+                    <Ellipse Stroke="#F4F5F7" StrokeThickness="2.2" />
+                    <Ellipse Width="5" Height="5" Fill="#F4F5F7"
+                             HorizontalAlignment="Center" VerticalAlignment="Top"
+                             Margin="0,7,0,0" />
+                </Grid>
+                <TextBlock Text="A quieter kind of intelligence" FontSize="22"
+                           FontWeight="SemiBold" TextAlignment="Center" />
+                <TextBlock Text="The foundation is in place. The orb, AI providers, memory, voice and permission-controlled tools will be implemented in stages and tested as they arrive."
+                           TextWrapping="Wrap" TextAlignment="Center"
+                           Foreground="{StaticResource OrbMuted}" FontSize="14"
+                           LineHeight="23" Margin="0,12,0,0" />
+                <Border Background="#252A33" CornerRadius="8" Padding="12,8"
+                        Margin="0,20,0,0">
+                    <TextBlock Text="STATUS  •  EARLY DEVELOPMENT" FontSize="10"
+                               FontWeight="SemiBold" TextAlignment="Center"
+                               Foreground="#DCE2EA" />
+                </Border>
+            </StackPanel>
+        </Border>
+
+        <DockPanel Grid.Row="2" Margin="0,18,0,0">
+            <TextBlock Text=".NET 8 · WPF" Foreground="{StaticResource OrbMuted}"
+                       FontSize="11" VerticalAlignment="Center" />
+            <TextBlock Text="Local-first foundations · Explicit permissions"
+                       Foreground="{StaticResource OrbMuted}" FontSize="11"
+                       HorizontalAlignment="Right" DockPanel.Dock="Right"
+                       VerticalAlignment="Center" />
+        </DockPanel>
+    </Grid>
+</Window>
