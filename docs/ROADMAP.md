@@ -1,37 +1,37 @@
-# Development roadmap
+# Roadmap
 
 ## Phase 1 — Foundation
-- [x] Create the solution and initial project structure.
-- [x] Add shared build defaults and ignore rules.
-- [x] Add the first WPF desktop shell.
-- [x] Add a framework-independent core library and initial unit tests.
-- [ ] Add CI build/test workflow and verify on a Windows runner.
-- [ ] Review the complete scaffold and resolve any build/test failures.
+- [x] .NET 8 WPF solution, core project, CI build/test workflow, and security notes.
+- [ ] Continue improving diagnostics and test coverage.
 
-## Phase 2 — Orb and desktop lifecycle
-- Transparent, hollow white orb window with subtle state transitions.
-- Drag-to-position and always-on-top behavior.
-- Tray menu, startup preferences, and reliable exit path.
+## Phase 2 — Desktop orb
+- [x] Transparent hollow orb, idle animation, drag support, context menu, and basic settings.
+- [ ] System-tray integration and persisted UI preferences.
+- [ ] Verify on a real Windows desktop and polish accessibility.
 
-## Phase 3 — AI and conversation
-- Provider interfaces and explicit configuration.
-- Local provider support first; cloud providers opt-in.
-- Conversation orchestration, cancellation, and safe error handling.
+## Phase 3 — AI and memory
+- [x] Conversation domain models and provider interface.
+- [x] Local Ollama provider with no cloud fallback and remote-endpoint opt-in.
+- [x] Local JSON memory with recent-item limit, deletion, and clear support.
+- [x] Chat interface and bounded in-session history.
+- [ ] Add provider health/model selection UI, streaming responses, and deeper memory controls.
+- [ ] Expand automated tests for provider errors and persistence.
 
-## Phase 4 — Persistent memory
-- Local storage, inspectable entries, and delete/export controls.
-- No hidden upload of local memory.
+## Phase 4 — Voice
+- [x] Windows speech synthesis and one-shot speech recognition service.
+- [x] Explicit Listen button and transcription review before sending.
+- [x] Optional spoken assistant responses.
+- [ ] Add UI cancellation/status refinements and test across Windows speech-language configurations.
 
-## Phase 5 — Voice
-- Voice capture and speech output behind replaceable interfaces.
-- Clear listening/speaking indicators and microphone failure handling.
+## Phase 5 — Computer operation
+- [x] Risk classification and approval contract for computer actions.
+- [x] Approval-gated runner for non-read-only actions.
+- [x] Read-only listing for a user-selected workspace folder.
+- [ ] Add narrowly scoped actions with explicit confirmation and path validation.
+- [ ] Add integration tests for approval refusal, cancellation, and path boundaries.
+- [ ] Do not add unrestricted command execution or autonomous destructive actions.
 
-## Phase 6 — Permissioned computer actions
-- Explicit capability model and per-action confirmation for sensitive changes.
-- Allow-listed operations, audit log, and cancellation.
-- No arbitrary command execution without clear user approval.
-
-## Phase 7 — Polish and packaging
-- Accessibility, responsiveness, tests, documentation, and release packaging.
-
-A phase is complete only when its acceptance criteria are implemented and the relevant checks have passed.
+## Release readiness
+- [ ] All CI checks pass on the latest commit.
+- [ ] Manual Windows smoke test of orb, chat, memory, microphone, and speech output.
+- [ ] Document installation and troubleshooting; package a testable build.
