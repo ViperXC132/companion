@@ -14,5 +14,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\DevAI.Core\DevAI.Core.csproj" />
+    <ProjectReference Include="..\..\src\DevAI.Storage\DevAI.Storage.csproj" />
   </ItemGroup>
 </Project>
