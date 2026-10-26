@@ -1,0 +1,42 @@
+name: Build and package Dev AI Orb
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Install .NET 8 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore
+        run: dotnet restore DevAI.sln
+
+      - name: Build
+        run: dotnet build DevAI.sln --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test DevAI.sln --configuration Release --no-build --verbosity normal
+
+      - name: Publish self-contained Windows x64 app
+        run: dotnet publish src/DevAI.App/DevAI.App.csproj --configuration Release --runtime win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=None -p:DebugSymbols=false
+
+      - name: Upload packaged app
+        uses: actions/upload-artifact@v4
+        with:
+          name: DevAI-Orb-win-x64
+          path: src/DevAI.App/bin/Release/net8.0-windows/win-x64/publish/
+          if-no-files-found: error
+          retention-days: 30
