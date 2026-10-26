@@ -101,7 +101,7 @@ public partial class OrbWindow : Window
 
     private void OpenSettings()
     {
-        var settings = new SettingsWindow { Owner = _mainWindow };
+        var settings = new SettingsWindow(this) { Owner = _mainWindow };
         settings.ShowDialog();
     }
 }
