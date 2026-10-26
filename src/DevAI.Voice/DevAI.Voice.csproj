@@ -1,0 +1,4 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><TargetFramework>net8.0-windows</TargetFramework><EnableWindowsTargeting>true</EnableWindowsTargeting><RootNamespace>DevAI.Voice</RootNamespace></PropertyGroup>
+  <ItemGroup><ProjectReference Include="..\DevAI.Core\DevAI.Core.csproj" /><PackageReference Include="System.Speech" Version="8.0.0" /></ItemGroup>
+</Project>
