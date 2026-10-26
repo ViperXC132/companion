@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Net.Http;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 using DevAI.Computer;
@@ -118,6 +119,66 @@ public partial class MainWindow : Window
         {
             MessageBox.Show(this, ex.Message, "Could not clear memory", MessageBoxButton.OK, MessageBoxImage.Error);
         }
+    }
+
+
+    private async void OpenCode_Click(object sender, RoutedEventArgs e)
+    {
+        var folderDialog = new OpenFolderDialog { Title = "Choose the project folder for OpenCode", Multiselect = false };
+        if (folderDialog.ShowDialog(this) != true) return;
+
+        var promptDialog = new Window
+        {
+            Title = "OpenCode · Coding task",
+            Owner = this,
+            Width = 540,
+            Height = 260,
+            WindowStartupLocation = WindowStartupLocation.CenterOwner,
+            Background = System.Windows.Media.Brushes.White,
+            Foreground = System.Windows.Media.Brushes.Black,
+            ResizeMode = ResizeMode.NoResize
+        };
+        var layout = new System.Windows.Controls.Grid { Margin = new Thickness(18) };
+        layout.RowDefinitions.Add(new System.Windows.Controls.RowDefinition { Height = GridLength.Auto });
+        layout.RowDefinitions.Add(new System.Windows.Controls.RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+        layout.RowDefinitions.Add(new System.Windows.Controls.RowDefinition { Height = GridLength.Auto });
+        var label = new System.Windows.Controls.TextBlock { Text = "Describe what OpenCode should do in the selected project:", Margin = new Thickness(0,0,0,10) };
+        System.Windows.Controls.Grid.SetRow(label, 0);
+        layout.Children.Add(label);
+        var promptBox = new System.Windows.Controls.TextBox { AcceptsReturn = true, TextWrapping = TextWrapping.Wrap, VerticalScrollBarVisibility = System.Windows.Controls.ScrollBarVisibility.Auto, MinHeight = 90, Padding = new Thickness(8) };
+        System.Windows.Controls.Grid.SetRow(promptBox, 1);
+        layout.Children.Add(promptBox);
+        var buttons = new System.Windows.Controls.StackPanel { Orientation = System.Windows.Controls.Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0,12,0,0) };
+        var cancel = new System.Windows.Controls.Button { Content = "Cancel", Width = 90, Margin = new Thickness(0,0,8,0), Padding = new Thickness(8) };
+        var run = new System.Windows.Controls.Button { Content = "Run OpenCode", Width = 110, Padding = new Thickness(8), IsDefault = true };
+        cancel.Click += (_, _) => promptDialog.DialogResult = false;
+        run.Click += (_, _) => { if (!string.IsNullOrWhiteSpace(promptBox.Text)) promptDialog.DialogResult = true; };
+        buttons.Children.Add(cancel); buttons.Children.Add(run);
+        System.Windows.Controls.Grid.SetRow(buttons, 2);
+        layout.Children.Add(buttons);
+        promptDialog.Content = layout;
+        if (promptDialog.ShowDialog() != true) return;
+
+        var approval = MessageBox.Show(this,
+            "OpenCode will run in the selected folder and may read or modify project files according to its own permissions. Continue?\n\n" + folderDialog.FolderName,
+            "Approve OpenCode task", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+        if (approval != MessageBoxResult.Yes) return;
+
+        SetBusy(true, "OpenCode · working in selected project");
+        try
+        {
+            var result = await OpenCodeRunner.RunAsync(folderDialog.FolderName, promptBox.Text);
+            ConversationLines.Add(new ConversationLine("OPENCODE · RESULT", result));
+            ConversationList.ScrollIntoView(ConversationLines[^1]);
+            StatusText.Text = "OpenCode finished";
+        }
+        catch (Exception ex)
+        {
+            ConversationLines.Add(new ConversationLine("OPENCODE · NOTICE", ex.Message));
+            ConversationList.ScrollIntoView(ConversationLines[^1]);
+            StatusText.Text = "OpenCode needs attention";
+        }
+        finally { SetBusy(false, StatusText.Text); }
     }
 
     private async void Workspace_Click(object sender, RoutedEventArgs e)
